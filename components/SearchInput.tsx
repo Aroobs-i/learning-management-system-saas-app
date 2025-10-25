@@ -15,29 +15,34 @@ const SearchInput = () => {
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            if(searchQuery) {
-                const newUrl = formUrlQuery({
-                    params: searchParams.toString(),
-                    key: "topic",
-                    value: searchQuery,
-                });
-
-                router.push(newUrl, { scroll: false });
-            } else {
-                if(pathname === '/companions') {
-                    const newUrl = removeKeysFromUrlQuery({
-                        params: searchParams.toString(),
-                        keysToRemove: ["topic"],
-                    });
-
-                    router.push(newUrl, { scroll: false });
-                }
+          // only update when user types something
+          if (searchQuery) {
+            const newUrl = formUrlQuery({
+              params: searchParams.toString(),
+              key: "topic",
+              value: searchQuery,
+            });
+      
+            if (newUrl !== `${pathname}?${searchParams.toString()}`) {
+              router.push(newUrl, { scroll: false });
             }
+          } 
+          // only remove query if it actually exists
+          else if (searchParams.get("topic")) {
+            const newUrl = removeKeysFromUrlQuery({
+              params: searchParams.toString(),
+              keysToRemove: ["topic"],
+            });
+      
+            router.push(newUrl, { scroll: false });
+          }
         }, 500);
-        
-        return () => clearTimeout(delayDebounceFn); 
-    }, [searchQuery, router, searchParams, pathname]);
+      
+        return () => clearTimeout(delayDebounceFn);
+      }, [searchQuery, router, searchParams, pathname]);
+      
 
+    
     return (
         <div className="relative border border-black rounded-lg items-center flex gap-2 px-2 py-1 h-fit">
             <Image src="/icons/search.svg" alt="search" width={15} height={15} />
