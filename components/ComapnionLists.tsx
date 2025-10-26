@@ -1,5 +1,5 @@
 import { cn, getSubjectColor } from "@/lib/utils";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,7 +12,7 @@ interface CompanionsListProps {
 const ComapnionLists = ({ title, companions, classNames }: CompanionsListProps) => {
   return (
     <article className={cn('companion-list', classNames)}>
-      <h2 className="font-bold text-3xl">Recent Sessions</h2>
+      <h2 className="font-bold text-3xl">{title}</h2>
 
       <Table>
         <TableHeader>
